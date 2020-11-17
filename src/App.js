@@ -7,16 +7,16 @@ function App() {
   const [repositories, setRepositories] = useState([]);
 
   useEffect(() => {
-    api.get('repositories')
-      .then(response => {setRepositories(response.data)});
-  });
+    api.get('repositories').then(response => { 
+      setRepositories(response.data)});
+  }, []);
 
 
   async function handleAddRepository() {
     const response = await api.post('repositories', {
       title: `Teste adicionar React ${Date.now()}`,
-      url: "https://github.com/joeltonluz",
-      techs: ["Nodejs","React Native"]
+      url: 'https://github.com/joeltonluz',
+      techs: ['Nodejs','React Native']
     });
 
     const repository = response.data;
@@ -34,13 +34,10 @@ function App() {
   return (
     <div>
       <ul data-testid="repository-list">
-      {repositories.map(r => (
-        <li key={r.id}> 
-          <span>
-            <h3>{r.title}</h3>
-            <p><a href={r.url}>{r.url}</a></p>
-          </span>
-          <button onClick={() => handleRemoveRepository(r.id)}> Remover </button>
+      {repositories.map(repository => (
+        <li key={repository.id}> 
+          {repository.title}
+          <button onClick={() => handleRemoveRepository(repository.id)}> Remover </button>
         </li>))}
       </ul>
 
